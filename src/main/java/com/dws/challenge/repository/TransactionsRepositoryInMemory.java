@@ -47,10 +47,10 @@ public class TransactionsRepositoryInMemory implements TransactionsRepository {
   }
 
   private Accounts applyTransaction(String fromId, String toId, BigDecimal transferAmount) {
-    String firstId = fromId.compareTo(toId) < 0 ? fromId : toId;
-    String secondId = fromId.compareTo(toId) >= 0 ? fromId : toId;
-    synchronized (firstId) {
-      synchronized (secondId) {
+    String smallerId = fromId.compareTo(toId) < 0 ? fromId : toId;
+    String biggerId = fromId.compareTo(toId) >= 0 ? fromId : toId;
+    synchronized (smallerId) {
+      synchronized (biggerId) {
         Account fromAccount =
             accounts.compute(fromId, (id, account) -> {
               BigDecimal balance = account.getBalance();
